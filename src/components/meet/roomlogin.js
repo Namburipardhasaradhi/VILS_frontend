@@ -16,7 +16,7 @@ const RoomLogin = () => {
 
     const emailData = {
       recipient: recipientEmail,
-      body: `You have been invited to join a video call. Please use the following link: https://vils.vercel.app/room/${RoomCode}`
+      body: `You have been invited to join a video call. Please use the following link: https://vilsvc.netlify.app/room/${RoomCode}`
     };
 
     try {
