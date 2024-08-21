@@ -31,7 +31,7 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:8000/users/', formData, {
+            const response = await axios.post('https://vils-backend-2.onrender.com/users/', formData, {
                 headers: {
                     'Content-Type': 'application/json'
                 }

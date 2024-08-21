@@ -19,7 +19,7 @@ const Contact = () => {
         if (userId) {
             const fetchContacts = async () => {
                 try {
-                    const response = await axios.get(`http://localhost:8000/contacts/${userId}`);
+                    const response = await axios.get(`https://vils-backend-2.onrender.com/contacts/${userId}`);
                     setContacts(response.data);
                 } catch (error) {
                     console.error('Error fetching contacts:', error);
@@ -43,14 +43,14 @@ const Contact = () => {
 
         try {
             if (editContactIndex !== null) {
-                await axios.post(`http://localhost:8000/contacts/${contacts[editContactIndex].id}`, newContact);
+                await axios.post(`https://vils-backend-2.onrender.com/contacts/${contacts[editContactIndex].id}`, newContact);
                 const updatedContacts = contacts.map((contact, index) =>
                     index === editContactIndex ? { ...newContact, user_id: userId } : contact
                 );
                 setContacts(updatedContacts);
                 setEditContactIndex(null);
             } else {
-                const response = await axios.post('http://localhost:8000/contacts/', {
+                const response = await axios.post('https://vils-backend-2.onrender.com/contacts/', {
                     ...newContact,
                     user_id: userId,
                 });
@@ -78,7 +78,7 @@ const Contact = () => {
         try {
             const contactId = contacts[index].id;
 
-            await axios.delete(`http://localhost:8000/contacts/${contactId}`, {
+            await axios.delete(`https://vils-backend-2.onrender.com/contacts/${contactId}`, {
                 params: { user_id: userId }
             });
 

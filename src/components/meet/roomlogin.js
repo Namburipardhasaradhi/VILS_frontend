@@ -16,11 +16,11 @@ const RoomLogin = () => {
 
     const emailData = {
       recipient: recipientEmail,
-      body: `You have been invited to join a video call. Please use the following link: http://localhost:3000/room/${RoomCode}`
+      body: `You have been invited to join a video call. Please use the following link: https://vils.vercel.app/room/${RoomCode}`
     };
 
     try {
-      await fetch('http://localhost:8000/send-email/', {
+      await fetch('https://vils-backend-2.onrender.com/send-email/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

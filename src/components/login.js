@@ -14,7 +14,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.get('http://localhost:8000/users/', {
+      const response = await axios.get('https://vils-backend-2.onrender.com/users/', {
         params: {
           email: email,
           password: password,
