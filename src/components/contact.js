@@ -118,11 +118,13 @@ const Contact = () => {
     return (
         <div className="container mt-5">
             <div className="d-flex justify-content-between align-items-center mb-4">
-                <h2 className="text-center w-100">Make Video calls to your favourite person</h2>
                 <div>
-                    <button className="btn btn-danger mr-2" onClick={handleLogout}>
+                    <button className="btn btn-danger" onClick={handleLogout}>
                         Logout
                     </button>
+                </div>
+                <h2 className="text-center w-100">Make Video calls to your favourite person</h2>
+                <div>
                     <button className="btn btn-success rounded-circle" onClick={() => {
                         setNewContact({ name: '', contact_no: '', email: '' });
                         setEditContactIndex(null);
