@@ -17,19 +17,19 @@ const RoomLogin = () => {
     const emailData = {
       recipient: recipientEmail,
       body: `
-Dear User,
-
-You have been invited to join a secure video call on our platform.
-
-**Room Code**: ${RoomCode}
-
-Please click the link below to join the video call:
-[Join Video Call](https://vilsvc.netlify.app/room/${RoomCode})
-
-If you have any questions or require assistance, please do not hesitate to contact our support team.
-
-Best Regards,
-The vilsvc Team
+Dear User,\n
+\n
+You have been invited to join a secure video call on our platform.\n
+\n
+**Room Code**: ${RoomCode}\n
+\n
+Please click the link below to join the video call:\n
+[Join Video Call](https://vilsvc.netlify.app/room/${RoomCode})\n
+\n
+If you have any questions or require assistance, please do not hesitate to contact our support team.\n
+\n
+Best Regards,\n
+The vilsvc Team\n
 `
     };
 
