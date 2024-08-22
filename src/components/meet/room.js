@@ -42,19 +42,12 @@ function Room() {
     const startScreenRecording = async () => {
         try {
             const stream = await navigator.mediaDevices.getDisplayMedia({
-                video: true,
-                audio: {
-                    echoCancellation: true,
-                    noiseSuppression: true,
-                    sampleRate: 44100,
-                }
+                video: { mediaSource: 'screen' },
+                audio: true
             });
 
-            const audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-            const combinedStream = new MediaStream([...stream.getTracks(), ...audioStream.getTracks()]);
-
-            const recorder = new MediaRecorder(combinedStream, {
-                mimeType: 'video/webm;codecs=vp9',
+            const recorder = new MediaRecorder(stream, {
+                mimeType: 'video/webm; codecs=vp9'
             });
 
             recorder.ondataavailable = (event) => {
@@ -63,9 +56,9 @@ function Room() {
                 }
             };
 
-            recorder.onstop = () => {
+            recorder.onstop = async () => {
                 const blob = new Blob(recordedChunks, { type: 'video/webm' });
-                const mp4Blob = new Blob(recordedChunks, { type: 'video/mp4' });
+                const mp4Blob = await convertWebMToMP4(blob);
                 const url = URL.createObjectURL(mp4Blob);
                 const a = document.createElement('a');
                 a.href = url;
@@ -91,6 +84,14 @@ function Room() {
             setIsRecording(false);
             console.log("Screen recording stopped.");
         }
+    };
+
+    // Function to convert WebM to MP4 (placeholder logic)
+    const convertWebMToMP4 = async (webmBlob) => {
+        // Conversion logic goes here. Currently, browsers don't support direct conversion.
+        // This function would be implemented using a library or server-side tool.
+        // Returning the WebM blob for simplicity
+        return webmBlob;
     };
 
     return (
