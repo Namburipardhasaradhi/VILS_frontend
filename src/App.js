@@ -22,7 +22,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/contact" element={<PrivateRoute><Contact /></PrivateRoute>} />
         <Route path="/room/:roomID" element={<PrivateRoute><Room /></PrivateRoute>} />
-        <Route path="/roomlogin" element={<PrivateRoute><RoomLogin /></PrivateRoute>} />
+        <Route path="/roomlogin" element={<RoomLogin />} />
       </Routes>
     </BrowserRouter>
   );
