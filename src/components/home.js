@@ -57,7 +57,7 @@ const Home = () => {
       </HomeLeft>
       <HomeRight>
         <HomeImage 
-          src="path_to_your_image" 
+          src="C:\Users\MS COMPUTER\Pictures\Screenshots\Screenshot 2024-08-22 141221.png" 
           alt="Video Streaming" 
         />
       </HomeRight>
