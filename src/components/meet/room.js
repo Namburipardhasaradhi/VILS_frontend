@@ -41,33 +41,46 @@ function Room() {
     }, [roomID]);
 
     const startScreenRecording = async () => {
-        const stream = await navigator.mediaDevices.getDisplayMedia({
-            video: true,
-            audio: true
-        });
+        try {
+            const stream = await navigator.mediaDevices.getDisplayMedia({
+                video: true,
+                audio: {
+                    echoCancellation: true,
+                    noiseSuppression: true,
+                    sampleRate: 44100,
+                }
+            });
 
-        const recorder = new MediaRecorder(stream);
-        recorder.ondataavailable = (event) => {
-            if (event.data.size > 0) {
-                setRecordedChunks((prev) => prev.concat(event.data));
-            }
-        };
+            const audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            const combinedStream = new MediaStream([...stream.getTracks(), ...audioStream.getTracks()]);
 
-        recorder.onstop = () => {
-            const blob = new Blob(recordedChunks, { type: 'video/webm' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'screen-recording.webm';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-        };
+            const recorder = new MediaRecorder(combinedStream);
 
-        recorder.start();
-        setMediaRecorder(recorder);
-        setIsRecording(true);
-        console.log("Screen recording started.");
+            recorder.ondataavailable = (event) => {
+                if (event.data.size > 0) {
+                    setRecordedChunks((prev) => [...prev, event.data]);
+                }
+            };
+
+            recorder.onstop = () => {
+                const blob = new Blob(recordedChunks, { type: 'video/webm' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `screen-recording-${Date.now()}.webm`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                setRecordedChunks([]); // Reset recorded chunks after download
+            };
+
+            recorder.start();
+            setMediaRecorder(recorder);
+            setIsRecording(true);
+            console.log("Screen recording started.");
+        } catch (error) {
+            console.error("Error starting screen recording:", error);
+        }
     };
 
     const stopScreenRecording = () => {

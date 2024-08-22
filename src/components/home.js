@@ -14,69 +14,72 @@ const fadeIn = keyframes`
 
 const HomeContainer = styled.div`
   height: 100vh;
-  padding: 0 5%;
   display: flex;
-  background: linear-gradient(to right, #f8f9fa, #ffffff);
+  align-items: center;
+  justify-content: center;
+  background: #f7f0e4;
+  padding: 0 5%;
   animation: ${fadeIn} 1.5s ease-in;
 `;
 
-const HomeLeft = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+const ContentWrapper = styled.div`
+  text-align: center;
 `;
 
 const HomeTitle = styled.h1`
-  font-size: 3rem;
-  margin-bottom: 4rem;
-  transition: color 0.3s ease-in-out;
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  animation: ${fadeIn} 2s ease-in;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+`;
 
-  &:hover {
-    color: #007bff; /* Change color on hover */
-  }
+const HomeSubtitle = styled.p`
+  font-size: 1.5rem;
+  margin-bottom: 3rem;
+  color: #4e4e4e;
+  animation: ${fadeIn} 2.5s ease-in;
 `;
 
 const HomeButtons = styled.div`
   display: flex;
+  justify-content: center;
   gap: 20px;
 
   .btn {
+    padding: 12px 30px;
+    font-size: 1.2rem;
+    border-radius: 50px;
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 
     &:hover {
-      transform: translateY(-5px); /* Add lift effect */
-      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15); /* Add shadow */
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
     }
   }
-`;
-
-const HomeRight = styled.div`
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `;
 
 const Home = () => {
   return (
     <HomeContainer>
-      <HomeLeft>
-        <HomeTitle>
-          <strong>Welcome to Video Streaming App</strong>
-        </HomeTitle>
+      <ContentWrapper>
+        <HomeTitle>Welcome to Video Streaming App</HomeTitle>
+        <HomeSubtitle>Connect and stream with ease</HomeSubtitle>
         <HomeButtons>
-          <Link to="/login" className="btn btn-primary">
+          <Link to="/login" className="btn btn-primary ">
             Login
           </Link>
           <Link to="/register" className="btn btn-success">
             Register
           </Link>
         </HomeButtons>
-      </HomeLeft>
-      <HomeRight>
-        {/* Add any additional elements here if needed */}
-      </HomeRight>
+      </ContentWrapper>
     </HomeContainer>
   );
 };

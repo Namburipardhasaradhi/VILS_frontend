@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const Register = () => {
     const [formData, setFormData] = useState({
@@ -45,89 +44,173 @@ const Register = () => {
     };
 
     return (
-        <div className="d-flex flex-column align-items-center justify-content-center vh-100 bg-light">
-            <h1 className="display-4 mb-4"><strong>Create an Account</strong></h1>
-            <form onSubmit={handleSubmit} className="w-50">
-                <div className="form-group mb-3">
-                    <label htmlFor="first_name">First Name</label>
-                    <input
-                        type="text"
-                        id="first_name"
-                        name="first_name"
-                        className="form-control"
-                        value={formData.first_name}
-                        onChange={handleChange}
-                        required
-                    />
+        <div style={styles.container}>
+            <div style={styles.leftSection}>
+                <div style={styles.welcomeText}>
+                    <h1>Join <span style={styles.highlight}>Our Community</span>,<br />Create Your Account</h1>
                 </div>
-                <div className="form-group mb-3">
-                    <label htmlFor="last_name">Last Name</label>
-                    <input
-                        type="text"
-                        id="last_name"
-                        name="last_name"
-                        className="form-control"
-                        value={formData.last_name}
-                        onChange={handleChange}
-                        required
-                    />
+            </div>
+            <div style={styles.rightSection}>
+                <div style={styles.registerBox}>
+                    <h2 style={styles.title}>Register</h2>
+                    <form onSubmit={handleSubmit}>
+                        <div style={styles.inputGroup}>
+                            <input
+                                type="text"
+                                placeholder="First Name"
+                                name="first_name"
+                                style={styles.input}
+                                value={formData.first_name}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                        <div style={styles.inputGroup}>
+                            <input
+                                type="text"
+                                placeholder="Last Name"
+                                name="last_name"
+                                style={styles.input}
+                                value={formData.last_name}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                        <div style={styles.inputGroup}>
+                            <input
+                                type="email"
+                                placeholder="Email"
+                                name="email"
+                                style={styles.input}
+                                value={formData.email}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                        <div style={styles.inputGroup}>
+                            <input
+                                type="text"
+                                placeholder="State"
+                                name="state"
+                                style={styles.input}
+                                value={formData.state}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                        <div style={styles.inputGroup}>
+                            <input
+                                type="text"
+                                placeholder="Country"
+                                name="country"
+                                style={styles.input}
+                                value={formData.country}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                        <div style={styles.inputGroup}>
+                            <input
+                                type="password"
+                                placeholder="Password"
+                                name="password"
+                                style={styles.input}
+                                value={formData.password}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                        {status && <div style={styles.status}>{status}</div>}
+                        <button type="submit" style={styles.registerButton}>
+                            Register
+                        </button>
+                    </form>
+                    <div style={styles.loginLink}>
+                        <p>Already have an account? <Link to="/login" style={styles.link}>Sign in</Link></p>
+                    </div>
                 </div>
-                <div className="form-group mb-3">
-                    <label htmlFor="email">Email</label>
-                    <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        className="form-control"
-                        value={formData.email}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div className="form-group mb-3">
-                    <label htmlFor="state">State</label>
-                    <input
-                        type="text"
-                        id="state"
-                        name="state"
-                        className="form-control"
-                        value={formData.state}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div className="form-group mb-3">
-                    <label htmlFor="country">Country</label>
-                    <input
-                        type="text"
-                        id="country"
-                        name="country"
-                        className="form-control"
-                        value={formData.country}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div className="form-group mb-3">
-                    <label htmlFor="password">Password</label>
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        className="form-control"
-                        value={formData.password}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <button type="submit" className="btn btn-success btn-block mt-3">Register</button>
-            </form>
-            {status && <p className="mt-3 alert alert-info">{status}</p>}
-            <div className="mt-3 text-center">
-                <p>Already have an account? <a href="/login" className="link-primary">Sign in</a></p>
             </div>
         </div>
     );
+};
+
+const styles = {
+    container: {
+        display: 'flex',
+        height: '100vh',
+        background: 'linear-gradient(to right, #4e00c2, #7400d6)',
+    },
+    leftSection: {
+        flex: 1,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#ffffff',
+        borderTopLeftRadius: '50px',
+        borderBottomLeftRadius: '50px',
+    },
+    welcomeText: {
+        textAlign: 'center',
+        padding: '20px',
+    },
+    highlight: {
+        color: '#4e00c2',
+    },
+    rightSection: {
+        flex: 1,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#ffffff',
+        borderTopRightRadius: '50px',
+        borderBottomRightRadius: '50px',
+    },
+    registerBox: {
+        width: '350px', // Adjust width as needed
+        maxHeight: '70%', // Restrict height to fit within the screen
+        padding: '20px',
+        textAlign: 'center',
+        boxShadow: '0px 10px 20px rgba(0,0,0,0.2)',
+        borderRadius: '10px',
+        backgroundColor: '#fff',
+        overflowY: 'auto',
+    },
+    title: {
+        fontSize: '28px',
+        marginBottom: '20px',
+        color: '#4e00c2',
+    },
+    inputGroup: {
+        marginBottom: '15px',
+    },
+    input: {
+        width: '100%',
+        padding: '10px',
+        margin: '10px 0',
+        borderRadius: '5px',
+        border: '1px solid #ddd',
+    },
+    status: {
+        color: 'red',
+        marginBottom: '10px',
+    },
+    registerButton: {
+        width: '100%',
+        padding: '10px',
+        backgroundColor: '#4e00c2',
+        color: '#fff',
+        border: 'none',
+        borderRadius: '5px',
+        cursor: 'pointer',
+        fontSize: '16px',
+    },
+    loginLink: {
+        marginTop: '15px',
+    },
+    link: {
+        color: '#4e00c2',
+        textDecoration: 'none',
+    },
 };
 
 export default Register;

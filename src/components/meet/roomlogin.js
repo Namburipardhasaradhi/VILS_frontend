@@ -16,7 +16,21 @@ const RoomLogin = () => {
 
     const emailData = {
       recipient: recipientEmail,
-      body: `You have been invited to join a video call. Please use the following link: https://vilsvc.netlify.app/room/${RoomCode}`
+      body: `
+Dear User,
+
+You have been invited to join a secure video call on our platform.
+
+**Room Code**: ${RoomCode}
+
+Please click the link below to join the video call:
+[Join Video Call](https://vilsvc.netlify.app/room/${RoomCode})
+
+If you have any questions or require assistance, please do not hesitate to contact our support team.
+
+Best Regards,
+The vilsvc Team
+`
     };
 
     try {
@@ -35,33 +49,74 @@ const RoomLogin = () => {
   };
 
   return (
-    <div className="mt-16">
-      <h1 className="font-black text-center text-5xl font-serif">
-        Video Call
-      </h1>
-      <div className="mt-28">
-        <form onSubmit={submitCode} className="text-center">
-          <label className="text-black text-3xl font-serif">
-            Enter Random code to join
-          </label>
-          <div className="w-2/6 text-center ml-96 align-middle pl-64 ">
-            <input
-              type="text"
-              placeholder="Enter Random Code"
-              value={RoomCode}
-              onChange={(e) => setRoomCode(e.target.value)}
-              className="form-control"
-            />
-          </div>
-          <div className="mt-10">
-            <button type="submit" className="btn btn-primary">
-              Submit
-            </button>
-          </div>
+    <div style={styles.container}>
+      <div style={styles.card}>
+        <h1 style={styles.title}>Join a Video Call</h1>
+        <form onSubmit={submitCode}>
+          <label style={styles.label}>Enter a Room Code to Join</label>
+          <input
+            type="text"
+            placeholder="Enter Room Code"
+            value={RoomCode}
+            onChange={(e) => setRoomCode(e.target.value)}
+            style={styles.input}
+          />
+          <button type="submit" style={styles.button}>
+            Join Room
+          </button>
         </form>
       </div>
     </div>
   );
+};
+
+const styles = {
+  container: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100vh',
+    backgroundColor: '#f0f0f0', // Light grey background
+  },
+  card: {
+    backgroundColor: '#fff',
+    borderRadius: '10px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    padding: '40px',
+    maxWidth: '400px',
+    width: '100%',
+    textAlign: 'center',
+  },
+  title: {
+    fontSize: '28px',
+    fontWeight: 'bold',
+    marginBottom: '20px',
+    color: '#4e00c2', // Violet color
+  },
+  label: {
+    display: 'block',
+    fontSize: '18px',
+    marginBottom: '10px',
+    color: '#333',
+  },
+  input: {
+    width: '100%',
+    padding: '10px',
+    fontSize: '16px',
+    borderRadius: '5px',
+    border: '1px solid #ccc',
+    marginBottom: '20px',
+  },
+  button: {
+    width: '100%',
+    padding: '10px',
+    backgroundColor: '#4e00c2',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    fontSize: '16px',
+  },
 };
 
 export default RoomLogin;
