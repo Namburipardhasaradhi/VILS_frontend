@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import { ZegoUIKitPrebuilt } from "@zegocloud/zego-uikit-prebuilt";
 
 function Room() {
-    
     const { roomID } = useParams();
     const meetingContainerRef = useRef(null);
     const [isRecording, setIsRecording] = useState(false);
@@ -54,7 +53,9 @@ function Room() {
             const audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
             const combinedStream = new MediaStream([...stream.getTracks(), ...audioStream.getTracks()]);
 
-            const recorder = new MediaRecorder(combinedStream);
+            const recorder = new MediaRecorder(combinedStream, {
+                mimeType: 'video/webm;codecs=vp9',
+            });
 
             recorder.ondataavailable = (event) => {
                 if (event.data.size > 0) {
@@ -64,10 +65,11 @@ function Room() {
 
             recorder.onstop = () => {
                 const blob = new Blob(recordedChunks, { type: 'video/webm' });
-                const url = URL.createObjectURL(blob);
+                const mp4Blob = new Blob(recordedChunks, { type: 'video/mp4' });
+                const url = URL.createObjectURL(mp4Blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = `screen-recording-${Date.now()}.webm`;
+                a.download = `screen-recording-${Date.now()}.mp4`;
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
