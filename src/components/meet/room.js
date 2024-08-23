@@ -43,11 +43,11 @@ function Room() {
         try {
             const stream = await navigator.mediaDevices.getDisplayMedia({
                 video: { mediaSource: 'screen' },
-                audio: true, // Ensures audio is also captured
+                audio: true,
             });
 
             const recorder = new MediaRecorder(stream, {
-                mimeType: 'video/webm; codecs=vp9', // Video and audio in WebM format
+                mimeType: 'video/webm; codecs=vp9',
             });
 
             recorder.ondataavailable = (event) => {
@@ -61,7 +61,7 @@ function Room() {
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = `screen-recording-${Date.now()}.webm`; // Ensure correct file extension
+                a.download = `screen-recording-${Date.now()}.webm`;
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
@@ -102,9 +102,12 @@ function Room() {
                     borderRadius: '5px',
                     cursor: 'pointer',
                     zIndex: 1000,
+                    // Ensure the button is accessible on mobile
+                    width: 'calc(100% - 40px)',
+                    maxWidth: '200px',
                 }}
             >
-                {isRecording ? "Stop Screen Recording" : "Start Screen Recording"}
+                {isRecording ? "Stop Recording" : "Start Recording"}
             </button>
         </div>
     );
