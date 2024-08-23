@@ -5,7 +5,8 @@ import { ZegoUIKitPrebuilt } from "@zegocloud/zego-uikit-prebuilt";
 function Room() {
     const { roomID } = useParams();
     const meetingContainerRef = useRef(null);
-    const [recorder, setRecorder] = useState(null);
+    const [isRecording, setIsRecording] = useState(false);
+    const [mediaRecorder, setMediaRecorder] = useState(null);
     const [recordedChunks, setRecordedChunks] = useState([]);
 
     useEffect(() => {
@@ -16,7 +17,7 @@ function Room() {
                 appID,
                 serverSecret,
                 roomID,
-                Date.now().toString(),
+                Date.now().toString(), // Generate a unique user ID
                 "pardhu"
             );
 
@@ -27,39 +28,8 @@ function Room() {
                 scenario: {
                     mode: ZegoUIKitPrebuilt.GroupCall,
                 },
-                onReady: async (zegoExpressEngine) => {
+                onReady: () => {
                     console.log("Meeting is ready.");
-                    const stream = await navigator.mediaDevices.getDisplayMedia({ video: true });
-                    const mediaRecorder = new MediaRecorder(stream);
-                    setRecorder(mediaRecorder);
-
-                    mediaRecorder.ondataavailable = (event) => {
-                        if (event.data.size > 0) {
-                            setRecordedChunks((prev) => [...prev, event.data]);
-                        }
-                    };
-
-                    mediaRecorder.onstop = async () => {
-                        const blob = new Blob(recordedChunks, {
-                            type: 'video/webm'
-                        });
-                        const formData = new FormData();
-                        formData.append('file', blob, `recording_${Date.now()}.webm`);
-
-                        await fetch('http://localhost:8000/upload-screen-recording', {
-                            method: 'POST',
-                            body: formData,
-                        });
-
-                        const url = window.URL.createObjectURL(blob);
-                        const a = document.createElement('a');
-                        a.style.display = 'none';
-                        a.href = url;
-                        a.download = `recording_${Date.now()}.webm`;
-                        document.body.appendChild(a);
-                        a.click();
-                        window.URL.revokeObjectURL(url);
-                    };
                 },
             });
         };
@@ -67,27 +37,75 @@ function Room() {
         if (meetingContainerRef.current) {
             startMeeting();
         }
-    }, [roomID, recordedChunks]);
+    }, [roomID]);
 
-    const startRecording = () => {
-        if (recorder) {
+    const startScreenRecording = async () => {
+        try {
+            const stream = await navigator.mediaDevices.getDisplayMedia({
+                video: { mediaSource: 'screen' },
+                audio: true, // Ensures audio is also captured
+            });
+
+            const recorder = new MediaRecorder(stream, {
+                mimeType: 'video/webm; codecs=vp9', // Video and audio in WebM format
+            });
+
+            recorder.ondataavailable = (event) => {
+                if (event.data.size > 0) {
+                    setRecordedChunks((prev) => [...prev, event.data]);
+                }
+            };
+
+            recorder.onstop = async () => {
+                const blob = new Blob(recordedChunks, { type: 'video/webm' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `screen-recording-${Date.now()}.webm`; // Ensure correct file extension
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                setRecordedChunks([]); // Reset recorded chunks after download
+            };
+
             recorder.start();
-            console.log("Recording started");
+            setMediaRecorder(recorder);
+            setIsRecording(true);
+            console.log("Screen recording started.");
+        } catch (error) {
+            console.error("Error starting screen recording:", error);
         }
     };
 
-    const stopRecording = () => {
-        if (recorder) {
-            recorder.stop();
-            console.log("Recording stopped");
+    const stopScreenRecording = () => {
+        if (mediaRecorder) {
+            mediaRecorder.stop();
+            setIsRecording(false);
+            console.log("Screen recording stopped.");
         }
     };
 
     return (
         <div style={{ position: 'relative', width: '100vw', height: '100vh' }}>
             <div ref={meetingContainerRef} style={{ width: "100%", height: "100%" }}></div>
-            <button onClick={startRecording}>Start Recording</button>
-            <button onClick={stopRecording}>Stop Recording</button>
+            <button 
+                onClick={isRecording ? stopScreenRecording : startScreenRecording}
+                style={{
+                    position: 'absolute',
+                    bottom: '20px',
+                    left: '20px',
+                    padding: '10px 20px',
+                    fontSize: '16px',
+                    backgroundColor: isRecording ? 'red' : 'green',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '5px',
+                    cursor: 'pointer',
+                    zIndex: 1000,
+                }}
+            >
+                {isRecording ? "Stop Screen Recording" : "Start Screen Recording"}
+            </button>
         </div>
     );
 }
