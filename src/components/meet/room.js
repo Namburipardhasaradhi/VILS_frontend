@@ -1,13 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useParams } from "react-router-dom";
 import { ZegoUIKitPrebuilt } from "@zegocloud/zego-uikit-prebuilt";
 
 function Room() {
     const { roomID } = useParams();
     const meetingContainerRef = useRef(null);
-    const [isRecording, setIsRecording] = useState(false);
-    const [mediaRecorder, setMediaRecorder] = useState(null);
-    const [recordedChunks, setRecordedChunks] = useState([]);
 
     useEffect(() => {
         const startMeeting = async () => {
@@ -39,82 +36,9 @@ function Room() {
         }
     }, [roomID]);
 
-    const startScreenRecording = async () => {
-        try {
-            const stream = await navigator.mediaDevices.getDisplayMedia({
-                video: { mediaSource: 'screen' },
-                audio: true
-            });
-
-            const recorder = new MediaRecorder(stream, {
-                mimeType: 'video/webm; codecs=vp9'
-            });
-
-            recorder.ondataavailable = (event) => {
-                if (event.data.size > 0) {
-                    setRecordedChunks((prev) => [...prev, event.data]);
-                }
-            };
-
-            recorder.onstop = async () => {
-                const blob = new Blob(recordedChunks, { type: 'video/webm' });
-                const mp4Blob = await convertWebMToMP4(blob);
-                const url = URL.createObjectURL(mp4Blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `screen-recording-${Date.now()}.mp4`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                setRecordedChunks([]); // Reset recorded chunks after download
-            };
-
-            recorder.start();
-            setMediaRecorder(recorder);
-            setIsRecording(true);
-            console.log("Screen recording started.");
-        } catch (error) {
-            console.error("Error starting screen recording:", error);
-        }
-    };
-
-    const stopScreenRecording = () => {
-        if (mediaRecorder) {
-            mediaRecorder.stop();
-            setIsRecording(false);
-            console.log("Screen recording stopped.");
-        }
-    };
-
-    // Function to convert WebM to MP4 (placeholder logic)
-    const convertWebMToMP4 = async (webmBlob) => {
-        // Conversion logic goes here. Currently, browsers don't support direct conversion.
-        // This function would be implemented using a library or server-side tool.
-        // Returning the WebM blob for simplicity
-        return webmBlob;
-    };
-
     return (
         <div style={{ position: 'relative', width: '100vw', height: '100vh' }}>
             <div ref={meetingContainerRef} style={{ width: "100%", height: "100%" }}></div>
-            <button 
-                onClick={isRecording ? stopScreenRecording : startScreenRecording}
-                style={{
-                    position: 'absolute',
-                    bottom: '20px',
-                    left: '20px',
-                    padding: '10px 20px',
-                    fontSize: '16px',
-                    backgroundColor: isRecording ? 'red' : 'green',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '5px',
-                    cursor: 'pointer',
-                    zIndex: 1000, 
-                }}
-            >
-                {isRecording ? "Stop Screen Recording" : "Start Screen Recording"}
-            </button>
         </div>
     );
 }
