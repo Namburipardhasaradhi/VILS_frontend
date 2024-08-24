@@ -18,7 +18,7 @@ function Room() {
                 serverSecret,
                 roomID,
                 Date.now().toString(), 
-                ""
+                "VILSVC"
             );
 
             const zp = ZegoUIKitPrebuilt.create(kitToken);
