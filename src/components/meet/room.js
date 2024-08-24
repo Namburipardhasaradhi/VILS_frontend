@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from "react-router-dom";
 import { ZegoUIKitPrebuilt } from "@zegocloud/zego-uikit-prebuilt";
-import { createFFmpeg, fetchFile } from '@ffmpeg/ffmpeg';
 
 function Room() {
     const { roomID } = useParams();
@@ -9,7 +8,6 @@ function Room() {
     const [isRecording, setIsRecording] = useState(false);
     const [mediaRecorder, setMediaRecorder] = useState(null);
     const [recordedChunks, setRecordedChunks] = useState([]);
-    const [ffmpeg] = useState(() => createFFmpeg({ log: true })); // Corrected initialization of ffmpeg
 
     useEffect(() => {
         const startMeeting = async () => {
@@ -39,15 +37,7 @@ function Room() {
         if (meetingContainerRef.current) {
             startMeeting();
         }
-
-        const loadFFmpeg = async () => {
-            if (!ffmpeg.isLoaded()) {
-                await ffmpeg.load();
-            }
-        };
-
-        loadFFmpeg();
-    }, [roomID, ffmpeg]);
+    }, [roomID]);
 
     const startScreenRecording = async () => {
         try {
@@ -66,25 +56,15 @@ function Room() {
                 }
             };
 
-            recorder.onstop = async () => {
+            recorder.onstop = () => {
                 const blob = new Blob(recordedChunks, { type: 'video/webm' });
-                const webmFile = new File([blob], `screen-recording-${Date.now()}.webm`, { type: 'video/webm' });
-                
-                await ffmpeg.FS('writeFile', 'recording.webm', await fetchFile(webmFile));
-                await ffmpeg.run('-i', 'recording.webm', 'output.mp4');
-                const mp4Data = ffmpeg.FS('readFile', 'output.mp4');
-
-                const mp4Blob = new Blob([mp4Data.buffer], { type: 'video/mp4' });
-                const url = URL.createObjectURL(mp4Blob);
+                const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = `screen-recording-${Date.now()}.mp4`;
+                a.download = `screen-recording-${Date.now()}.webm`;
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
-
-                ffmpeg.FS('unlink', 'recording.webm');
-                ffmpeg.FS('unlink', 'output.mp4');
                 setRecordedChunks([]); 
             };
 
