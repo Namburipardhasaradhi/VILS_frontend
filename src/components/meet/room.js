@@ -17,8 +17,8 @@ function Room() {
                 appID,
                 serverSecret,
                 roomID,
-                Date.now().toString(), // Generate a unique user ID
-                "pardhu"
+                Date.now().toString(), 
+                "Enter your name"
             );
 
             const zp = ZegoUIKitPrebuilt.create(kitToken);
@@ -65,7 +65,7 @@ function Room() {
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
-                setRecordedChunks([]); // Reset recorded chunks after download
+                setRecordedChunks([]); 
             };
 
             recorder.start();
@@ -102,7 +102,6 @@ function Room() {
                     borderRadius: '5px',
                     cursor: 'pointer',
                     zIndex: 1000,
-                    // Ensure the button is accessible on mobile
                     width: 'calc(100% - 40px)',
                     maxWidth: '200px',
                 }}

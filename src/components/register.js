@@ -166,8 +166,8 @@ const styles = {
         borderBottomRightRadius: '50px',
     },
     registerBox: {
-        width: '350px', // Adjust width as needed
-        maxHeight: '70%', // Restrict height to fit within the screen
+        width: '350px', 
+        maxHeight: '70%', 
         padding: '20px',
         textAlign: 'center',
         boxShadow: '0px 10px 20px rgba(0,0,0,0.2)',

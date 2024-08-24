@@ -72,7 +72,7 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     height: '100vh',
-    backgroundColor: '#f0f0f0', // Light grey background
+    backgroundColor: '#f0f0f0', 
   },
   card: {
     backgroundColor: '#fff',
@@ -87,7 +87,7 @@ const styles = {
     fontSize: '28px',
     fontWeight: 'bold',
     marginBottom: '20px',
-    color: '#4e00c2', // Violet color
+    color: '#4e00c2', 
   },
   label: {
     display: 'block',

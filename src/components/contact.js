@@ -27,7 +27,7 @@ const Contact = () => {
             };
             fetchContacts();
         } else {
-            navigate('/login'); // Redirect to login if user is not logged in
+            navigate('/login'); 
         }
     }, [userId, navigate]);
 
@@ -95,10 +95,7 @@ const Contact = () => {
 
     const handleNavigate = async (contact) => {
         try {
-            // Store the email of the selected contact in sessionStorage
             sessionStorage.setItem('email', contact.email);
-
-            // Navigate to the room login page
             navigate('/roomlogin');
         } catch (error) {
             console.error('Error setting up video call:', error);
