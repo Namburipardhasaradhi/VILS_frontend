@@ -17,20 +17,16 @@ const RoomLogin = () => {
     const emailData = {
       recipient: recipientEmail,
       body: `
-Dear User,\n
-\n
-You have been invited to join a secure video call on our platform.\n
-\n
-**Room Code**: ${RoomCode}\n
-\n
-Please click the link below to join the video call:\n
-[Join Video Call](https://vilsvc.netlify.app/room/${RoomCode})\n
-\n
-If you have any questions or require assistance, please do not hesitate to contact our support team.\n
-\n
-Best Regards,\n
-The vilsvc Team\n
-`
+        <div style="font-family: Arial, sans-serif; color: #333;">
+          <p>Dear User,</p>
+          <p>You have been invited to join a secure video call on our platform.</p>
+          <p><strong>Room Code:</strong> ${RoomCode}</p>
+          <p>Please click the link below to join the video call:</p>
+          <p><a href="https://vilsvc.netlify.app/room/${RoomCode}" style="color: #4e00c2;">Join Video Call</a></p>
+          <p>If you have any questions or require assistance, please do not hesitate to contact our support team.</p>
+          <p>Best Regards,<br/>The vilsvc Team</p>
+        </div>
+      `,
     };
 
     try {

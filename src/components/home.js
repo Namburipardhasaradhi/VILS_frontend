@@ -63,6 +63,16 @@ const HomeButtons = styled.div`
       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
     }
   }
+
+  .btn-primary {
+    background-color: #764ba2;
+    border: none;
+  }
+
+  .btn-success {
+    background-color: #667eea;
+    border: none;
+  }
 `;
 
 const Home = () => {
@@ -72,7 +82,7 @@ const Home = () => {
         <HomeTitle>Welcome to Video Streaming App</HomeTitle>
         <HomeSubtitle>Connect and stream with ease</HomeSubtitle>
         <HomeButtons>
-          <Link to="/login" className="btn btn-primary ">
+          <Link to="/login" className="btn btn-primary">
             Login
           </Link>
           <Link to="/register" className="btn btn-success">
