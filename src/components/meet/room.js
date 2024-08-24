@@ -9,7 +9,7 @@ function Room() {
     const [isRecording, setIsRecording] = useState(false);
     const [mediaRecorder, setMediaRecorder] = useState(null);
     const [recordedChunks, setRecordedChunks] = useState([]);
-    const [ffmpeg] = useState(createFFmpeg({ log: true }));
+    const [ffmpeg] = useState(() => createFFmpeg({ log: true })); // Corrected initialization of ffmpeg
 
     useEffect(() => {
         const startMeeting = async () => {
